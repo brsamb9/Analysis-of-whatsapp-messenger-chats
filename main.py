@@ -6,8 +6,9 @@ from dfAnalyzer import *
 
 def main():
     print("\Creating main DataFrame:\n")
-    fresh_df = combine_dataframes(files=sys.argv[1:])
-    
+    sender = input("Enter your name seen in these files (to translate 'you' to your actual name)")
+    fresh_df = combine_dataframes(sys.argv[1:], sender)
+
     
     print("\nStarting analyzing chat:\n")
     print("\n-- Emoji's analysis:")
@@ -49,7 +50,7 @@ def main():
 
 
 
-def combine_dataframes(files: List[str]) -> pd.DataFrame:
+def combine_dataframes(files: List[str], sender=str) -> pd.DataFrame:
     extClass = {'txt': WhatsappToDF, 'json': FacebookToDF}
 
     combine_df = pd.DataFrame(columns=['date', 'time', 'sender', 'text'])
@@ -60,7 +61,7 @@ def combine_dataframes(files: List[str]) -> pd.DataFrame:
         except:
             sys.exit("error: file provided has an unknown file extension type")
 
-        convert = convertClass(file)
+        convert = convertClass(file, sender)
         dftoAppend = convert.into_dataframe()
         combine_df = pd.concat([combine_df, dftoAppend], ignore_index=True)
 

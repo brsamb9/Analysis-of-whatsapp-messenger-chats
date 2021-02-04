@@ -3,7 +3,7 @@ import pandas as pd
 import sys
 
 class FacebookToDF():
-    def __init__(self, jsonFile: str) -> None:
+    def __init__(self, jsonFile: str, sender: str) -> None:
         try:
             f = open(jsonFile)
         except:
@@ -11,7 +11,8 @@ class FacebookToDF():
 
         jsonData = json.load(f)
         f.close()
-
+        
+        self.user = sender
         self.people = jsonData['participants']
         self.messages = jsonData['messages']
         self.meta = {'Call': 0, 'Share': 0, 'videos': 0, 'photos': 0, 'files': 0}

@@ -9,7 +9,7 @@ Purpose: infographic about family chats and individuals
 '''
 
 class WhatsappToDF:
-    def __init__(self, file: str) -> None:
+    def __init__(self, file: str, sender: str) -> None:
         print("Working on file: {}".format(file))
 
         f = open(file, "r")
@@ -20,7 +20,7 @@ class WhatsappToDF:
         pattern = "\d{2}\/\d{2}\/\d{4}, \d{1,2}:\d{2} [ap]m -"
         self.date_time_matches = [s.start() for s in re.finditer(pattern, self.convo)]
 
-        self.user = ""
+        self.user = sender
         self.group_creator = ""
         self.group_name = ""
         self.group_members = set()
@@ -135,8 +135,6 @@ class WhatsappToDF:
                 self.people_remover[kicker][removed.strip()] += 1
 
         elif "changed the subject" in line:
-            # 16/05/2019, 12: 58 pm - You changed the subject from "Family" to "Banter bus"
-            # 16/05/2019, 1: 13 pm - Abi Sambells changed the subject from "Banter bus" to "Ben’s Banter Bus 🚌"
             matchobj_changed_subject = re.findall(
                 "- (.*) changed the subject from \".*\" to \"(.*)\"", line)[0]
 
